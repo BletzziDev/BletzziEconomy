@@ -1,0 +1,6 @@
+# Dados de conexão MySQL
+mysql:
+  host: "localhost:3306"
+  database: ""
+  user: ""
+  password: ""

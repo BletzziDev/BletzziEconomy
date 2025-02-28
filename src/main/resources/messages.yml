@@ -1,0 +1,4 @@
+string:
+  balanceSelf: "§aVocê possui  &2$&f{balance}&a."
+  balanceOthers: "&aO jogador &f{player} &apossui &2$&f{balance}&a."
+list: {}

@@ -1,0 +1,5 @@
+name: BletzziEconomy
+version: '1.0.0'
+main: com.bletzzi.economy.EconomyPlugin
+authors: [ Bletzzi ]
+website: bletzzi.com
