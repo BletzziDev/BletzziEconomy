@@ -1,5 +1,6 @@
 package com.bletzzi.economy.utils.database
 
+import com.bletzzi.economy.utils.Console
 import java.io.InputStream
 import java.sql.Connection
 import java.sql.PreparedStatement
@@ -10,17 +11,24 @@ abstract class DataSource(
     open val database: String,
     open val user: String,
     open val password: String,
-    migrations: List<InputStream>,
+    open val migrations: List<InputStream>,
     var connection: Connection? = null
 ) {
-    init {
+
+    fun performMigrations() {
+        Console.log("§2Iniciando migration")
         migrations.forEach {
+            Console.log("§2Migration: $it")
             var migration = ""
             for(line in it.bufferedReader().readLines()) {
                 migration += line
             }
 
-            connection!!.prepareStatement(migration).execute()
+            Console.log("§3Tentando estabelecer o statement")
+            connection!!.prepareStatement(migration)?.let { stmt ->
+                stmt.execute()
+                stmt.close()
+            }
         }
     }
 
@@ -30,13 +38,15 @@ abstract class DataSource(
 
     fun insert(table: String, columns: String, ignore: Boolean): QueryBuilder {
         var placeholders = ""
-        for(i in 1..(columns.replace(" ", "").split(",").size)) placeholders += "? "
-        return QueryBuilder("INSERT${ if(ignore) " IGNORE" else "" } INTO $table ($columns) VALUES ( ${placeholders} )", this)
+        val size = columns.replace(" ", "").split(",").size
+        for(i in 1..size) placeholders += if(i == size) "?" else "?, "
+        return QueryBuilder("INSERT${ if(ignore) " IGNORE" else "" } INTO $table ($columns) VALUES (${placeholders})", this)
     }
 
     fun update(table: String, columns: String): QueryBuilder {
         var placeholders = ""
-        for(column in columns.replace(" ", "").split(",")) placeholders += "`$column` = ? "
+        val data = columns.replace(" ", "").split(",")
+        for(i in 1..data.size) placeholders += if(i == data.size) "`${data[i-1]}` = ? " else "`${data[i-1]}` = ?, "
         return QueryBuilder("UPDATE $table SET $placeholders", this)
     }
 
@@ -52,10 +62,11 @@ abstract class DataSource(
             return this
         }
 
-        fun execute(): ResultSet {
+        fun execute(): PreparedStatement {
             sql += ";"
+            Console.debug("§9SQL QUERY: $sql")
             stmt.execute()
-            return stmt.resultSet
+            return stmt
         }
 
         fun where(condition: String): QueryBuilder {
@@ -97,6 +108,20 @@ abstract class DataSource(
         }
         fun bind(index: Int, value: Boolean): QueryBuilder {
             stmt.setBoolean(index, value)
+            return this
+        }
+        fun bindAny(index: Int, value: Any): QueryBuilder {
+            when {
+                value is Int -> bind(index, value)
+                value is Double -> bind(index, value)
+                value is Boolean -> bind(index, value)
+                value is String -> bind(index, value)
+                else -> try {
+                    throw Exception("Invalid query bind value ($value)")
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
             return this
         }
     }

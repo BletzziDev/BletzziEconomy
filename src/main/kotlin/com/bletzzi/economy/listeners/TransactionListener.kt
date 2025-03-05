@@ -15,6 +15,5 @@ class TransactionListener(val plugin: EconomyPlugin) : Listener {
         if(event.isCancelled) return
 
         val transaction = event.transaction
-
     }
 }

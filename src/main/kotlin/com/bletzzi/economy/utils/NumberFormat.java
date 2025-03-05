@@ -1,6 +1,6 @@
 package com.bletzzi.economy.utils;
 
-import com.bletzzi.core.CorePlugin;
+import org.bukkit.configuration.ConfigurationSection;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -8,9 +8,15 @@ import java.util.List;
 import java.util.Locale;
 
 public class NumberFormat {
-    private static final List<String> suffixes = CorePlugin.Companion.getInstance().getConfigFile().getStringList("format.suffixes");
-    private static final double minAmount = CorePlugin.Companion.getInstance().getConfigFile().getDouble("format.minValue");
-    private static final boolean use = CorePlugin.Companion.getInstance().getConfigFile().getBoolean("format.use");
+    private static List<String> suffixes;
+    private static double minAmount;
+    private static boolean use;
+
+    public static void setup(ConfigurationSection section) {
+        suffixes = section.getStringList("suffixes");
+        minAmount = section.getDouble("minValue");
+        use = section.getBoolean("use");
+    }
 
     public static String format(double number) {
         if(!use || number <= minAmount) {

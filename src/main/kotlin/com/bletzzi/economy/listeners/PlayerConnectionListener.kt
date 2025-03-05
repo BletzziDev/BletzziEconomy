@@ -13,12 +13,14 @@ class PlayerConnectionListener(private val plugin: EconomyPlugin) : Listener {
     @EventHandler
     fun onJoin(event: PlayerJoinEvent) {
         val player = event.player
-        plugin.userRepository.select(player.uniqueId, true)
+        plugin.userRepository.select(player.uniqueId, false)
     }
 
+    /*
     @EventHandler
     fun onQuit(event: PlayerQuitEvent) {
         val player = event.player
         plugin.userRepository.deleteFromCache(player.uniqueId)?.let { plugin.userRepository.update(player.uniqueId, it) }
     }
+     */
 }
