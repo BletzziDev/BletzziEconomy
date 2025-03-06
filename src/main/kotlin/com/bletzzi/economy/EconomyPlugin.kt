@@ -2,6 +2,7 @@ package com.bletzzi.economy
 
 import com.bletzzi.economy.commands.MoneyCommand
 import com.bletzzi.economy.configs.MainConfig
+import com.bletzzi.economy.configs.MenuConfig
 import com.bletzzi.economy.configs.MessageConfig
 import com.bletzzi.economy.controllers.TransactionController
 import com.bletzzi.economy.hooks.PapiExpansion
@@ -11,6 +12,8 @@ import com.bletzzi.economy.repositories.UserRepository
 import com.bletzzi.economy.utils.Console
 import com.bletzzi.economy.utils.database.Mysql
 import com.bletzzi.economy.vault.EconomyProvider
+import com.bletzzi.economy.views.MainView
+import me.devnatan.inventoryframework.ViewFrame
 import me.saiintbrisson.bukkit.command.BukkitFrame
 import net.milkbowl.vault.economy.Economy
 import org.bukkit.Bukkit
@@ -25,6 +28,7 @@ class EconomyPlugin : JavaPlugin() {
 
     lateinit var mainConfig: MainConfig
     lateinit var messageConfig: MessageConfig
+    lateinit var menuConfig: MenuConfig
 
     lateinit var mysql: Mysql
     lateinit var userRepository: UserRepository
@@ -33,6 +37,7 @@ class EconomyPlugin : JavaPlugin() {
     lateinit var transactionController: TransactionController
 
     lateinit var bukkitFrame: BukkitFrame
+    lateinit var viewFrame: ViewFrame
 
     override fun onEnable() {
         plugin = this
@@ -71,6 +76,9 @@ class EconomyPlugin : JavaPlugin() {
         bukkitFrame = BukkitFrame(this)
         bukkitFrame.registerCommands(MoneyCommand(this))
 
+        viewFrame = ViewFrame.create(this)
+        viewFrame.with(MainView(this)).register()
+
         Console.log("§aPlugin iniciado com sucesso!")
     }
 
@@ -82,6 +90,7 @@ class EconomyPlugin : JavaPlugin() {
     fun loadPluginConfigs() {
         mainConfig = MainConfig(this)
         messageConfig = MessageConfig(this)
+        menuConfig = MenuConfig(this)
     }
 
     private fun setupRepositories(): Boolean {

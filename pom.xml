@@ -98,6 +98,12 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
+            <groupId>me.devnatan</groupId>
+            <artifactId>inventory-framework-platform-bukkit</artifactId>
+            <version>3.0.8</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
             <groupId>org.jetbrains.kotlinx</groupId>
             <artifactId>kotlinx-coroutines-core</artifactId>
             <version>1.7.3</version>

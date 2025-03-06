@@ -4,6 +4,7 @@ import com.bletzzi.economy.EconomyPlugin
 import com.bletzzi.economy.enums.TransactionStatus
 import com.bletzzi.economy.utils.NumberFormat
 import com.bletzzi.economy.utils.extensors.isValid
+import com.bletzzi.economy.views.MainView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -31,8 +32,9 @@ class MoneyCommand(private val plugin: EconomyPlugin) {
             return
         }
 
-        val user = plugin.userRepository.select(sender.uniqueId, true)
-        sender.sendMessage(plugin.messageConfig.string["balanceSelf"]?.replace("{balance}", NumberFormat.format(user!!.balance)))
+        //val user = plugin.userRepository.select(sender.uniqueId, true)
+        plugin.viewFrame.open(MainView::class.java, context.sender as Player)
+        //sender.sendMessage(plugin.messageConfig.string["balanceSelf"]?.replace("{balance}", NumberFormat.format(user!!.balance)))
     }
 
     @Command(name = "money.send", aliases = ["money.enviar", "money.pay", "money.pagar"], permission = "beconomy.send")

@@ -1,0 +1,61 @@
+# Menu principal (/money)
+main:
+  size: 27
+  title: "&8Banco do servidor"
+  items:
+    profile:
+      slot: 10
+      material: "d01afe973c5482fdc71e6aa10698833c79c437f21308ea9a1a095746ec274a0f"
+      name: "&aSuas informações"
+      lore:
+        - "&7Olá, consulte abaixo"
+        - "&7os seus dados financeiros"
+        - ""
+        - " &8» &fSaldo: &2$&f{balance}"
+        - " &8» &fBolsa: &a100%"
+        - ""
+    payments_on:
+      slot: 14
+      material: "eefd4cfa9143398e11ebce3fb2ecbbf56a073e3563f6ef6acae4cb7397e588b2"
+      name: "&aPagamentos Ativos"
+      lore:
+        - "&7Use essa ferramenta para"
+        - "&7determinar se você está"
+        - "&7aceitando transferências"
+        - "&7de outros jogadores."
+        - ""
+        - " &8» &fStatus: &aAtivo"
+        - ""
+        - "&cClique para desativar"
+    payments_off:
+      slot: 14
+      material: "beb588b21a6f98ad1ff4e085c552dcb050efc9cab427f46048f18fc803475f7"
+      name: "&cPagamentos Inativos"
+      lore:
+        - "&7Use essa ferramenta para"
+        - "&7determinar se você está"
+        - "&7aceitando transferências"
+        - "&7de outros jogadores."
+        - ""
+        - " &8» &fStatus: &cInativo"
+        - ""
+        - "&aClique para ativar"
+    logs:
+      slot: 15
+      material: "c73e8bd3c43c4514c76481ca1daf55149dfc93bd1bcfa8ab9437b9f7eb3392d9"
+      name: "&aÚltimas transações"
+      lore:
+        - "&7Olá, consulte as últimas"
+        - "&7transações realizadas em"
+        - "&7sua conta bancária."
+        - ""
+        - "&aClique para acessar"
+    send:
+      slot: 16
+      material: "b056bc1244fcff99344f12aba42ac23fee6ef6e3351d27d273c1572531f"
+      name: "&aRealizar transferência"
+      lore:
+        - "&7Deseja enviar dinheiro"
+        - "&7para outro jogador?"
+        - ""
+        - "&aClique para transferir"

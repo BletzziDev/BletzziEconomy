@@ -5,7 +5,8 @@ import java.util.UUID
 
 data class User(
     val uuid: UUID,
-    var balance: Double
+    var balance: Double,
+    var receiving: Boolean
 ) {
     fun isOnline(): Boolean {
         val player = Bukkit.getPlayer(uuid)

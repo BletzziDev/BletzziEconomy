@@ -15,12 +15,12 @@ class UserRepository(private val dataSource: DataSource) : Repository<UUID, User
         val query = dataSource.select(table, "*").where("`uuid` = '$key'").build().execute()
         val result = query.resultSet
         if(!result.next()) {
-            Console.log("§cDebug user repository não tem user na db")
-            val user = User(key, 0.0)
+            Console.debug("§cDebug user repository não tem user na db")
+            val user = User(key, 0.0, true)
             insert(user.uuid, user)
             return user
         }
-        val user = User(key, result.getDouble("balance"))
+        val user = User(key, result.getDouble("balance"), result.getBoolean("receiving"))
         query.close()
         result.close()
         return user
@@ -37,9 +37,9 @@ class UserRepository(private val dataSource: DataSource) : Repository<UUID, User
 
     override fun update(key: UUID, value: User) {
         CoroutineScope(Dispatchers.IO).launch {
-            dataSource.update(table, "balance").where("`uuid` = ?").build()
+            dataSource.update(table, "balance,receiving").where("`uuid` = '$key'").build()
                 .bind(1, value.balance)
-                .bind(2, key.toString())
+                .bind(2, value.receiving)
                 .execute().close()
         }
     }
